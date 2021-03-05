@@ -21,17 +21,31 @@ public class Enemy : MonoBehaviour
 
     void Move()
     {
-        if (index > positions.Length-1)
-        {
-            Debug.Log("到达终点");
-            return;
-        }
+        //if (index > positions.Length-1)
+        //{
+        //    Debug.Log("到达终点");
+        //    return;
+        //}
         transform.Translate((positions[index].position - transform.position).normalized * Time.deltaTime * EnemySpeed);
 
         if(Vector3.Distance(positions[index].position , transform.position) < 0.2f)
         {
             index++;
-            
         }
+
+        if (index > positions.Length - 1)
+        {
+            ReachDestination();
+        }
+    }
+
+    void ReachDestination()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        EnemySpawner.EnemyAliveCount--;
     }
 }
