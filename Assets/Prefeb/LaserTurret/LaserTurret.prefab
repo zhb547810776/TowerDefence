@@ -91,7 +91,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1510991601441179492}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: LaserTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}

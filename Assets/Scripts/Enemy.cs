@@ -48,4 +48,9 @@ public class Enemy : MonoBehaviour
     {
         EnemySpawner.EnemyAliveCount--;
     }
+
+    public void GetDaname(int damage)
+    {
+        //受伤
+    }
 }

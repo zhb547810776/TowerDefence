@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class BuildManager : MonoBehaviour
 {
@@ -10,8 +11,16 @@ public class BuildManager : MonoBehaviour
     public TurretData standardTurretData;
 
     private TurretData selectedTurretData;
+    private int money = 800;
 
-    public int money = 1000;
+    public Animator moneyAnimator;
+    public Text moneyText;
+
+    void ChangeMoney(int change = 0)
+    {
+        money += change;
+        moneyText.text = "￥" + money;
+    }
 
     private void Update()
     {
@@ -26,18 +35,19 @@ public class BuildManager : MonoBehaviour
                 if (isCollider)
                 {
                     MapCube mapCube = hit.collider.GetComponent<MapCube>();
-                    if (mapCube.TurretGo == null)
+                    if (mapCube.turretGo == null)
                     {
                         //可以创建炮台
-                        if (money > selectedTurretData.cost)
+                        if (selectedTurretData != null && money >= selectedTurretData.cost)
                         {
-                            money -= selectedTurretData.cost;
+                            ChangeMoney(-selectedTurretData.cost);
                             mapCube.BuildTurret(selectedTurretData.turretPrefeb);
                             //selectedTurretData = null;
                         }
                         else
                         {
                             //提示钱不够了
+                            moneyAnimator.SetTrigger("Flicker");
                         }
                     }
                     else
