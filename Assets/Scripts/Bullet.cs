@@ -14,6 +14,12 @@ public class Bullet : MonoBehaviour
 
     void Update()
     {
+        if (target == null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         transform.LookAt(target.position);
         transform.Translate(Vector3.forward * bulletSpeed * Time.deltaTime);
     }
@@ -23,7 +29,8 @@ public class Bullet : MonoBehaviour
         if (other.tag == "Enemy")
         {
             other.GetComponent<Enemy>().GetDaname(damage);
-            GameObject.Instantiate(explosionEffectPrefeb, transform.position, transform.rotation);
+            GameObject effect = GameObject.Instantiate(explosionEffectPrefeb, transform.position, transform.rotation);
+            Destroy(effect, 1);
             Destroy(gameObject);
         }
     }

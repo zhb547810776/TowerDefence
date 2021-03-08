@@ -108,4 +108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e07d6c8f6e7688b4dbe0883b62cb69e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EnemySpeed: 15
+  enemySpeed: 20
+  hp: 300
+  explositonEffect: {fileID: 5578613108183947119, guid: 101230aa69b082246a14c6bc7983a50d, type: 3}

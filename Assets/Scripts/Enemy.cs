@@ -6,7 +6,9 @@ public class Enemy : MonoBehaviour
 {
     private Transform[] positions;
     private int index = 0;
-    public float EnemySpeed = 100;
+    public float enemySpeed = 20;
+    public int hp = 300;
+    public GameObject explositonEffect;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,7 +28,7 @@ public class Enemy : MonoBehaviour
         //    Debug.Log("到达终点");
         //    return;
         //}
-        transform.Translate((positions[index].position - transform.position).normalized * Time.deltaTime * EnemySpeed);
+        transform.Translate((positions[index].position - transform.position).normalized * Time.deltaTime * enemySpeed);
 
         if(Vector3.Distance(positions[index].position , transform.position) < 0.2f)
         {
@@ -51,6 +53,22 @@ public class Enemy : MonoBehaviour
 
     public void GetDaname(int damage)
     {
-        //受伤
+        if (hp<0)
+        {
+            return;
+        }
+        hp -= damage;
+
+        if (hp<=0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        GameObject effect = GameObject.Instantiate(explositonEffect, transform.position, transform.rotation);
+        Destroy(effect, 1);
+        Destroy(gameObject);
     }
 }
