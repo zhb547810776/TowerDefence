@@ -10,6 +10,7 @@ public class Turret : MonoBehaviour
 
     public GameObject bulletPrefeb;
     public Transform firePosition;
+    public Transform head;
 
     private void Start()
     {
@@ -44,6 +45,10 @@ public class Turret : MonoBehaviour
 
         if (timer > attackRate)
         {
+            Vector3 targetPosition = enemys[0].transform.position;
+            targetPosition.y = head.position.y;
+            head.LookAt(targetPosition);
+
             GameObject bullet = GameObject.Instantiate(bulletPrefeb, firePosition.position, firePosition.rotation);
             bullet.GetComponent<Bullet>().Target = enemys[0].transform;
             timer = 0;

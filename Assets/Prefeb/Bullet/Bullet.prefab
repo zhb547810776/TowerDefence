@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 50
-  bulletSpeed: 40
+  bulletSpeed: 60
   explosionEffectPrefeb: {fileID: 5578613108183947119, guid: 5442f4813b0b9dc44afc45c04b35ab30, type: 3}
 --- !u!54 &2053350021946151403
 Rigidbody:

@@ -9,9 +9,16 @@ public class BuildManager : MonoBehaviour
     public TurretData laserTurretData;
     public TurretData missileTurretData;
     public TurretData standardTurretData;
+    private bool selectLaserTurret;
+    private bool selectMissileTurret;
+    private bool selectStandardTurret;
 
     private TurretData selectedTurretData;
+    private GameObject selectedTurretGo;
     private int money = 800;
+
+    public GameObject upgradeCanvas;
+    public Button buttonUpgrade;
 
     public Animator moneyAnimator;
     public Text moneyText;
@@ -24,6 +31,11 @@ public class BuildManager : MonoBehaviour
 
     private void Update()
     {
+        if (!selectLaserTurret && !selectMissileTurret && !selectStandardTurret)
+        {
+            selectedTurretData = null;
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!EventSystem.current.IsPointerOverGameObject())
@@ -37,6 +49,12 @@ public class BuildManager : MonoBehaviour
                     MapCube mapCube = hit.collider.GetComponent<MapCube>();
                     if (mapCube.turretGo == null)
                     {
+
+                        if (selectedTurretData != null && money < selectedTurretData.cost)
+                        {
+                            moneyAnimator.SetTrigger("Flicker");
+                        }
+
                         //可以创建炮台
                         if (selectedTurretData != null && money >= selectedTurretData.cost)
                         {
@@ -44,15 +62,22 @@ public class BuildManager : MonoBehaviour
                             mapCube.BuildTurret(selectedTurretData.turretPrefeb);
                             //selectedTurretData = null;
                         }
-                        else
-                        {
-                            //提示钱不够了
-                            moneyAnimator.SetTrigger("Flicker");
-                        }
+
+
                     }
                     else
                     {
                         //升级炮台
+                        ShowUpgradeUI(mapCube.transform.position, mapCube.isUpgraded);
+                        if (mapCube.turretGo == selectedTurretGo && upgradeCanvas.activeInHierarchy)
+                        {
+                            HideUpgradeUI();
+                        }
+                        else
+                        {
+                            selectedTurretGo = mapCube.turretGo;
+                        }
+
                     }
                 }
             }
@@ -65,6 +90,7 @@ public class BuildManager : MonoBehaviour
         {
             selectedTurretData = laserTurretData;
         }
+        selectLaserTurret = isOn;
     }
     public void OnMissileSelected(bool isOn)
     {
@@ -72,6 +98,7 @@ public class BuildManager : MonoBehaviour
         {
             selectedTurretData = missileTurretData;
         }
+        selectMissileTurret = isOn;
     }
     public void OnStandardSelected(bool isOn)
     {
@@ -79,5 +106,27 @@ public class BuildManager : MonoBehaviour
         {
             selectedTurretData = standardTurretData;
         }
+        selectStandardTurret = isOn;
+    }
+
+    void ShowUpgradeUI(Vector3 pos, bool isDisableUpgrade = false)
+    {
+        upgradeCanvas.transform.position = pos + new Vector3(-0.48f,4.6f,4.2f);
+        upgradeCanvas.SetActive(true);
+        buttonUpgrade.interactable = !isDisableUpgrade;
+    }
+
+    void HideUpgradeUI()
+    {
+        upgradeCanvas.SetActive(false);
+    }
+
+    public void OnUpgradeButtonDown()
+    {
+
+    }
+    public void OnSaleButtonDowm()
+    {
+
     }
 }
