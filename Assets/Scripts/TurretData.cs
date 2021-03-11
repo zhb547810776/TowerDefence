@@ -9,8 +9,10 @@ public class TurretData
 {
     public GameObject turretPrefeb;
     public int cost;
+    public int sale;
     public GameObject turretUpgradedPrefeb;
     public int costUpgraded;
+    public int saleUpgraded;
     public TurretType type;
 }
 public enum TurretType

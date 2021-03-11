@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Turret : MonoBehaviour
 {
-    public List<GameObject> enemys = new List<GameObject>();
+    private List<GameObject> enemys = new List<GameObject>();
     public float attackRate = 0.5f; //多少秒攻击一次
     private float timer = 0;
 

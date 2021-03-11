@@ -9,6 +9,8 @@ public class MapCube : MonoBehaviour
     public GameObject turretGo;
     [HideInInspector]
     public bool isUpgraded = false;
+
+    private TurretData turretData;
     public GameObject buildEffect;
     private Renderer renderer;
 
@@ -17,12 +19,42 @@ public class MapCube : MonoBehaviour
         renderer = GetComponent<Renderer>();
     }
 
-    public  void BuildTurret(GameObject turretPrefeb)
+    public  void BuildTurret(TurretData turretData)
     {
+        this.turretData = turretData;
         isUpgraded = false;
-        turretGo = GameObject.Instantiate(turretPrefeb, transform.position, Quaternion.identity);
+        turretGo = GameObject.Instantiate(turretData.turretPrefeb, transform.position, Quaternion.identity);
         GameObject effect = GameObject.Instantiate(buildEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
+    }
+
+    public void UpgrateTurret(out TurretData turretData)
+    {
+        turretData = this.turretData;
+        if (isUpgraded)
+        {
+            return;
+        }
+        Destroy(turretGo);
+        isUpgraded = true;
+        turretGo = GameObject.Instantiate(turretData.turretUpgradedPrefeb, transform.position, Quaternion.identity);
+        GameObject effect = GameObject.Instantiate(buildEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 0.5f);
+    }
+
+    public bool SaleTurret(out TurretData turretDataBeforeSale)
+    {
+        turretDataBeforeSale = turretData;
+        bool isUpgradedBeforeSale = isUpgraded;
+        Destroy(turretGo);
+        isUpgraded = false;
+        turretGo = null;
+        turretData = null;
+
+        GameObject effect = GameObject.Instantiate(buildEffect, transform.position, Quaternion.identity);
+        Destroy(effect, 0.5f);
+
+        return isUpgradedBeforeSale;
     }
 
     private void OnMouseEnter()
