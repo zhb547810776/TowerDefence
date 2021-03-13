@@ -28,7 +28,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.tag == "Enemy")
         {
-            other.GetComponent<Enemy>().GetDaname(damage);
+            other.GetComponent<Enemy>().GetDamage(damage);
             GameObject effect = GameObject.Instantiate(explosionEffectPrefeb, transform.position, transform.rotation);
             Destroy(effect, 1);
             Destroy(gameObject);

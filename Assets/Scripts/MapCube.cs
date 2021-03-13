@@ -14,6 +14,8 @@ public class MapCube : MonoBehaviour
     public GameObject buildEffect;
     private Renderer renderer;
 
+    public TurretData TurretData { get => turretData;}
+
     private void Start()
     {
         renderer = GetComponent<Renderer>();
@@ -26,11 +28,9 @@ public class MapCube : MonoBehaviour
         turretGo = GameObject.Instantiate(turretData.turretPrefeb, transform.position, Quaternion.identity);
         GameObject effect = GameObject.Instantiate(buildEffect, transform.position, Quaternion.identity);
         Destroy(effect, 0.5f);
-    }
-
-    public void UpgrateTurret(out TurretData turretData)
+    } 
+    public void UpgrateTurret()
     {
-        turretData = this.turretData;
         if (isUpgraded)
         {
             return;
@@ -42,9 +42,8 @@ public class MapCube : MonoBehaviour
         Destroy(effect, 0.5f);
     }
 
-    public bool SaleTurret(out TurretData turretDataBeforeSale)
+    public bool SaleTurret()
     {
-        turretDataBeforeSale = turretData;
         bool isUpgradedBeforeSale = isUpgraded;
         Destroy(turretGo);
         isUpgraded = false;

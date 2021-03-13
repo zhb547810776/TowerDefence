@@ -21,7 +21,7 @@ public class BuildManager : MonoBehaviour
     public Button buttonUpgrade;
 
     public Animator moneyAnimator;
-    public Animator upgradeCanvasAnimator;
+    Animator upgradeCanvasAnimator;
     public Text moneyText;
 
     void ChangeMoney(int change = 0)
@@ -64,7 +64,7 @@ public class BuildManager : MonoBehaviour
                         //可以创建炮台
                         if (selectedTurretData != null && money >= selectedTurretData.cost)
                         {
-                            StartCoroutine(HideUpgradeUI());
+                            StartCoroutine("HideUpgradeUI");
                             ChangeMoney(-selectedTurretData.cost);
                             mapCube.BuildTurret(selectedTurretData);
                             //selectedTurretData = null;
@@ -77,7 +77,7 @@ public class BuildManager : MonoBehaviour
                         //升级炮台
                         if (mapCube == selectedMapCube && upgradeCanvas.activeInHierarchy)
                         {
-                            StartCoroutine(HideUpgradeUI());
+                            StartCoroutine("HideUpgradeUI");
                         }
                         else
                         {
@@ -134,23 +134,29 @@ public class BuildManager : MonoBehaviour
 
     public void OnUpgradeButtonDown()
     {
-        TurretData turretData;
-        selectedMapCube.UpgrateTurret(out turretData);
-        ChangeMoney(-turretData.costUpgraded);
-        StartCoroutine(HideUpgradeUI());
-    }
-    public void OnSaleButtonDowm()
-    {
-        TurretData turretData;
-        bool isUpgrade = selectedMapCube.SaleTurret(out turretData);
-        if (isUpgrade)
+        if (money >= selectedMapCube.TurretData.costUpgraded)
         {
-            ChangeMoney(turretData.saleUpgraded);
+            selectedMapCube.UpgrateTurret();
+            ChangeMoney(-selectedMapCube.TurretData.costUpgraded);
+            StartCoroutine("HideUpgradeUI");
         }
         else
         {
-            ChangeMoney(turretData.sale);
+            moneyAnimator.SetTrigger("Flicker");
         }
-        StartCoroutine(HideUpgradeUI());
+
+    }
+    public void OnSaleButtonDowm()
+    {
+        bool isUpgrade = selectedMapCube.SaleTurret();
+        if (isUpgrade)
+        {
+            ChangeMoney(selectedMapCube.TurretData.saleUpgraded);
+        }
+        else
+        {
+            ChangeMoney(selectedMapCube.TurretData.sale);
+        }
+        StartCoroutine("HideUpgradeUI");
     }
 }

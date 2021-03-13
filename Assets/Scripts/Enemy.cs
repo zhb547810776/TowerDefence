@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour
     private Transform[] positions;
     private int index = 0;
     public float enemySpeed = 20;
-    public int hp = 300;
-    public int totalHp;
+    public float hp = 300;
+    public float totalHp;
     public Slider hpSlider;
     public GameObject explositonEffect;
     // Start is called before the first frame update
@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour
 
     void ReachDestination()
     {
+        GameManager.Instance.Failed();
         Destroy(gameObject);
     }
 
@@ -55,14 +56,14 @@ public class Enemy : MonoBehaviour
         EnemySpawner.EnemyAliveCount--;
     }
 
-    public void GetDaname(int damage)
+    public void GetDamage(float damage)
     {
         if (hp<0)
         {
             return;
         }
         hp -= damage;
-        hpSlider.value = (float)hp / totalHp;
+        hpSlider.value = hp / totalHp;
 
         if (hp<=0)
         {

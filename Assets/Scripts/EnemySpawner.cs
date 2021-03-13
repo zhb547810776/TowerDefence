@@ -11,7 +11,12 @@ public class EnemySpawner : MonoBehaviour
 
     void Start()
     {
-        StartCoroutine(SpawnEnemy());
+        StartCoroutine("SpawnEnemy");
+    }
+
+    public void StopEnemy()
+    {
+        StopCoroutine("SpawnEnemy");
     }
 
     IEnumerator SpawnEnemy()
@@ -33,5 +38,10 @@ public class EnemySpawner : MonoBehaviour
             }
             yield return new WaitForSeconds(waveRate);
         }
+        while (EnemyAliveCount > 0)
+        {
+            yield return 0;
+        }
+        GameManager.Instance.Win();
     }
 }
